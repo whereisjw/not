@@ -4,6 +4,7 @@
 - npm i express
 - npm i nodemon
 - npm i cors
+- npm i mysql2
 
 ```
 {
@@ -55,10 +56,42 @@ export default router;
 ```
 
 ```
-export async function insert(req, res) {
-  console.log(req.body);
+import * as listRepository from "../Repository/listRepository.js";
 
+export async function insert(req, res) {
+  const { title, image, content } = req.body;
+  const result = await listRepository.insert(title, image, content);
+  if (result == "ok") {
+    res.json(result);
+  }
 }
+```
+
+```
+import { db } from "../db/database.js";
+
+export async function insert(title, image, content) {
+  return db
+    .execute(
+      `INSERT INTO p_news(title,image,content,ndate)value(?,?,?,curdate())`,
+      [title, image, content]
+    )
+    .then((res) => "ok");
+}
+```
+
+```
+import mysql from "mysql2";
+
+const pool = mysql.createPool({
+  host: "127.0.0.1",
+  port: "3306",
+  user: "root",
+  password: "jiwontax48*",
+  database: "hrdb2019",
+});
+
+export const db = pool.promise();
 ```
 
 body를 통해 넘어오는 데이터 확인
