@@ -7,3 +7,9 @@ export async function insert(req, res) {
     res.json(result);
   }
 }
+
+export async function getNews(req, res) {
+  const result = await listRepository.getNews();
+  console.log(result);
+  res.json(result);
+}

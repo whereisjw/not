@@ -8,3 +8,9 @@ export async function insert(title, image, content) {
     )
     .then((res) => "ok");
 }
+
+export async function getNews() {
+  return db
+    .execute(`SELECT  title,image FROM p_news`, [])
+    .then((res) => res[0]);
+}

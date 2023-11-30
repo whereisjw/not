@@ -96,3 +96,25 @@ export const db = pool.promise();
 
 body를 통해 넘어오는 데이터 확인
 ![Alt text](image.png)
+
+# 글목록 get
+
+```
+export async function getNews() {
+  return db
+    .execute(`SELECT  title,image FROM p_news`, [])
+    .then((res) => res[0]);
+}
+```
+
+```
+export async function getNews(req, res) {
+  const result = await listRepository.getNews();
+  console.log(result);
+  res.json(result);
+}
+```
+
+```
+router.get("/", getNews);
+```
